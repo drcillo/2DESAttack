@@ -21,12 +21,12 @@ import sys
 
 # The following is your plaintext/ciphertext pair. We read it from 
 # stdin:
-plaintext = sys.argv[1]
-ciphertext = sys.argv[2]
+plaintext = "89504e470d0a1a0a".decode("hex")
+ciphertext = "0486de014605796a"
 
 # Read in the effective keylength in number of hex digits. This value
 # is either 3 or 4 in our case:
-effKeyLength = int(2)
+effKeyLength = 2
 
 #Default IV as defined
 iv='5edcc504'
