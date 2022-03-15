@@ -21,8 +21,8 @@ import sys
 
 # The following is your plaintext/ciphertext pair. We read it from 
 # stdin:
-plaintext = [04,86,DE,01,46,05,79,6A}
-ciphertext = [89,50,4E,47,0D,0A,1A,0A]
+plaintext = sys.argv[1]
+ciphertext = sys.argv[2]
 
 # Read in the effective keylength in number of hex digits. This value
 # is either 3 or 4 in our case:
