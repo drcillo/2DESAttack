@@ -132,8 +132,8 @@ def lookupInTable(enctable, ciphertext, effKeyLength):
         #since the task is done break the loop
         if flag:
             break
-    print "Key1:" + key1
-    print "Key2:" + key2
+    print ("Key1:" + key1)
+    print ("Key2:" + key2)
 
 #Start of main function
 def main():
