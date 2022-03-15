@@ -2,7 +2,7 @@
 import binascii
 import itertools
 from pyDes import des
-from pyDes import CBC
+from pyDes import ECB
 import sys
 
 # Our IV is 5edcc504
@@ -21,12 +21,12 @@ import sys
 
 # The following is your plaintext/ciphertext pair. We read it from 
 # stdin:
-plaintext = sys.argv[1]
-ciphertext = sys.argv[2]
+plaintext = 0486DE014605796A
+ciphertext = 89504E470D0A1A0A
 
 # Read in the effective keylength in number of hex digits. This value
 # is either 3 or 4 in our case:
-effKeyLength = int(sys.argv[3])
+effKeyLength = int(2)
 
 #Default IV as defined
 iv='5edcc504'
@@ -36,8 +36,8 @@ def_pad="0000000000000000"
 
 #the function handed to us to get the decryption done
 def twodes(plain, keyOne, keyTwo):
-    cipherOne = des(binascii.unhexlify(keyOne), CBC, "5edcc504", pad=None)
-    cipherTwo = des(binascii.unhexlify(keyTwo), CBC, "5edcc504", pad=None)
+    cipherOne = des(binascii.unhexlify(keyOne), ECB, "5edcc504", pad=None)
+    cipherTwo = des(binascii.unhexlify(keyTwo), ECB, "5edcc504", pad=None)
     return cipherTwo.encrypt(cipherOne.encrypt(plain))
 
 #This function generates and returns the total number of keys that could have been used
@@ -50,7 +50,7 @@ def generatePermutation():
 def checkPad(effKeyLength):
     if(effKeyLength > 4):
         #since the test scope is out of the condition print the warning
-        print 'Key Length greater than 4 will take much time'
+        print ('Key Length greater than 4 will take much time')
     return def_pad[0:-(effKeyLength)]
 
 # Generate the "forward" table
@@ -71,9 +71,9 @@ def generateTable(plaintext, effKeyLength):
         p=pad+p
         if(len(p) != 16):
             #Some logic has gone wrong
-            print "padding gone wrong..."
+            print ("padding gone wrong...")
         #Initate the key for single DES encryption
-        k1 = des(binascii.unhexlify(p), CBC, "5edcc504", pad=None)
+        k1 = des(binascii.unhexlify(p), ECB, "5edcc504", pad=None)
         #yield p+":"+binascii.hexlify(k1.encrypt(plaintext))
         
         #store the key, value pair for further inspection
@@ -112,10 +112,10 @@ def lookupInTable(enctable, ciphertext, effKeyLength):
         p=pad+p
         if(len(p) != 16):
             #Some logic has gone wrong
-            print "padding gone wrong..."
+            print ("padding gone wrong...")
             return
         #Initialize the key for decryption
-        k2 =  des(binascii.unhexlify(p), CBC, "5edcc504", pad=None)
+        k2 =  des(binascii.unhexlify(p), ECB, "5edcc504", pad=None)
         #decrypt the ciphertext
         pt=binascii.hexlify(k2.decrypt(binascii.unhexlify(ciphertext)))
 
